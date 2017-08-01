@@ -136,7 +136,6 @@ void print() {
 
 int main(int argc, char const *argv[]) {
   char game_is_true = 1;
-  //char vect = 1;//    | 1 - left | 2 - up | 3 - right | 4 - down |
 
   srand(time(NULL));
   init_ui();
