@@ -16,13 +16,15 @@ int kbhit() {
 }
 
 void init_ui() {
-	initscr();
+  initscr();
+  curs_set(0);
+  cbreak();
+  keypad(stdscr, TRUE);
+  noecho();
   halfdelay(2);
-	curs_set(0);
-	noecho();
-	start_color();
-	use_default_colors();
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+  start_color();
+  use_default_colors();
+  init_pair(1, COLOR_WHITE, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
   init_pair(3, COLOR_RED, COLOR_BLACK);
   wbkgd(stdscr, COLOR_PAIR(1));

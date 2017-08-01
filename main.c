@@ -33,12 +33,12 @@ void create_snake() {
   snake.y[3] = HEIGHT/ 2;
 }
 
-void keyboard(char ch) {
+void keyboard(int ch) {
   switch(ch) {
-    case 'w': if (snake.direction != down) snake.direction = up; break;
-    case 's': if (snake.direction != up) snake.direction = down; break;
-    case 'a': if (snake.direction != right) snake.direction = left; break;
-    case 'd': if (snake.direction != left) snake.direction = right; break;
+    case KEY_UP: if (snake.direction != down) snake.direction = up; break;
+    case KEY_DOWN: if (snake.direction != up) snake.direction = down; break;
+    case KEY_LEFT: if (snake.direction != right) snake.direction = left; break;
+    case KEY_RIGHT: if (snake.direction != left) snake.direction = right; break;
   }
 }
 
@@ -81,14 +81,14 @@ void move_snake() {
 }
 
 void regenerate_apple() {
-  if (rand() % 100 < 25) {
+  if (rand() % 100 < 35) {
     apple.isBig = 1;
   } else {
     apple.isBig = 0;
   }
   do {
-    apple.x = rand() % (WIDTH - 1);
-    apple.y = rand() % (HEIGHT - 2) + 1;
+    apple.x = rand() % WIDTH;
+    apple.y = rand() % (HEIGHT - 1) + 1;
   } while(mvinch(apple.y, apple.x) == mvinch(snake.y[1], snake.x[1]));
 }
 
@@ -141,8 +141,8 @@ int main(int argc, char const *argv[]) {
   init_ui();
 
   apple.isBig = 0;
-  apple.x = rand() % (WIDTH - 1);
-  apple.y = rand() % (HEIGHT - 2) + 1;
+  apple.x = rand() % WIDTH;
+  apple.y = rand() % (HEIGHT - 1) + 1;
   snake.length = 4;
   snake.size = 10;
   snake.direction = left;
@@ -159,6 +159,13 @@ int main(int argc, char const *argv[]) {
 
   free(snake.x);
   free(snake.y);
+
+  clear();
+  mvwprintw(stdscr, HEIGHT / 2, WIDTH / 2 - 4, "You Lose!");
+  refresh();
+  halfdelay(100);
+  getch();
+
   endwin();
   return 0;
 }
