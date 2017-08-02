@@ -50,14 +50,14 @@ void move_snake() {
   }
   switch(snake.direction) {
     case left:
-      if (snake.x[0] != 0) {
+      if (snake.x[0] != 1) {
         snake.x[0] -= 1;
       } else {
         snake.x[0] = WIDTH - 1;
       }
     break;
     case up:
-      if (snake.y[0] != 1) {
+      if (snake.y[0] != 2) {
         snake.y[0] -= 1;
       } else {
         snake.y[0] = HEIGHT - 1;
@@ -67,14 +67,14 @@ void move_snake() {
       if (snake.x[0] != WIDTH - 1) {
         snake.x[0] += 1;
       } else {
-        snake.x[0] = 0;
+        snake.x[0] = 1;
       }
     break;
     case down:
       if (snake.y[0] != HEIGHT - 1) {
         snake.y[0] += 1;
       } else {
-        snake.y[0] = 1;
+        snake.y[0] = 2;
       }
     break;
   }
@@ -87,8 +87,8 @@ void regenerate_apple() {
     apple.isBig = 0;
   }
   do {
-    apple.x = rand() % WIDTH;
-    apple.y = rand() % (HEIGHT - 1) + 1;
+    apple.x = rand() % (WIDTH - 1) + 1;
+    apple.y = rand() % (HEIGHT - 2) + 2;
   } while(mvinch(apple.y, apple.x) == mvinch(snake.y[1], snake.x[1]));
 }
 
@@ -109,8 +109,15 @@ void check(char *game) {
       snake.x = (int*)realloc(snake.x, sizeof(int) * snake.size);
       snake.y = (int*)realloc(snake.y, sizeof(int) * snake.size);
     }
-    memset(snake.x + snake.length - 1, 0, 5);
-    memset(snake.y + snake.length - 1, 0, 5);
+    if (apple.isBig) {
+      for (i = snake.length - 6; i < snake.length; i++) {
+        snake.x[i] = 0;
+        snake.y[i] = 0;
+      }
+    } else {
+      snake.x[snake.length - 1] = 0;
+      snake.y[snake.length - 1] = 0;
+    }
     regenerate_apple();
   }
 }
@@ -118,6 +125,14 @@ void check(char *game) {
 void print() {
   int i;
   clear();
+  for (i = 1; i <= HEIGHT; i++) {
+    putcharyx('%', i, WIDTH);
+    putcharyx('%', i, 0);
+  }
+  for (i = 0; i < WIDTH; i++) {
+    putcharyx('%', HEIGHT, i);
+    putcharyx('%', 1, i);
+  }
   attron(COLOR_PAIR(2));
   for (i = 0; i < snake.length; i++) {
     putcharyx('@', snake.y[i], snake.x[i]);
@@ -130,7 +145,7 @@ void print() {
   } else {
     putcharyx('#', apple.y, apple.x);
   }
-  attron(COLOR_PAIR(3));
+  attroff(COLOR_PAIR(3));
   refresh();
 }
 
@@ -141,8 +156,8 @@ int main(int argc, char const *argv[]) {
   init_ui();
 
   apple.isBig = 0;
-  apple.x = rand() % WIDTH;
-  apple.y = rand() % (HEIGHT - 1) + 1;
+  apple.x = rand() % (WIDTH - 1) + 1;
+  apple.y = rand() % (HEIGHT - 2) + 2;
   snake.length = 4;
   snake.size = 10;
   snake.direction = left;

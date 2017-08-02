@@ -1,6 +1,6 @@
 #include <ncurses.h>
-int WIDTH;
-int HEIGHT;
+#define WIDTH 31
+#define HEIGHT 17
 
 
 
@@ -28,7 +28,6 @@ void init_ui() {
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
   init_pair(3, COLOR_RED, COLOR_BLACK);
   wbkgd(stdscr, COLOR_PAIR(1));
-  getmaxyx(stdscr, HEIGHT, WIDTH);
 	refresh();
 }
 
