@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <curses.h>
 
 enum Direction { up, down, left, right };
 
@@ -20,6 +21,11 @@ struct Apple {
   char isBig;
 } apple;
 
+typedef struct {
+  char name[10];
+  int score;
+} Player;
+
 
 
 void initgame();
@@ -30,11 +36,11 @@ char check();
 void regenerate_apple();
 void keyboard(int ch);
 
-int main(int argc, char const *argv[]) {  
+int main(int argc, char const *argv[]) {
   initui();
   initgame();
   create_snake();
-
+  
   while (check()) {
     print();
     if (kbhit()) keyboard(getch());
