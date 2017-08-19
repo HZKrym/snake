@@ -1,6 +1,4 @@
-//#pragma once
-#ifndef UI_H
-#define UI_H
+#pragma once
 
 #define WIDTH 31
 #define HEIGHT 17
@@ -8,5 +6,4 @@
 int kbhit();
 void initui();
 void putcharyx(unsigned char ch, int y, int x);
-
-#endif
+void print();

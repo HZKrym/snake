@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "engine.h"
 #include <curses.h>
 
 int kbhit() {
@@ -32,3 +33,30 @@ void initui() {
 void putcharyx(unsigned char ch, int y, int x) {
     mvwprintw(stdscr, y, x, "%c", ch);
 }
+
+void print() {
+    int i;
+    clear();
+    for (i = 1; i <= HEIGHT; i++) {
+      putcharyx('%', i, WIDTH);
+      putcharyx('%', i, 0);
+    }
+    for (i = 0; i < WIDTH; i++) {
+      putcharyx('%', HEIGHT, i);
+      putcharyx('%', 1, i);
+    }
+    attron(COLOR_PAIR(2));
+    for (i = 0; i < snake.length; i++) {
+      putcharyx('@', snake.y[i], snake.x[i]);
+    }
+    attroff(COLOR_PAIR(2));
+    mvwprintw(stdscr, 0, 0, "Length: %d", snake.length);
+    attron(COLOR_PAIR(3));
+    if (apple.isBig) {
+      putcharyx('&', apple.y, apple.x);
+    } else {
+      putcharyx('#', apple.y, apple.x);
+    }
+    attroff(COLOR_PAIR(3));
+    refresh();
+  }

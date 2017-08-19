@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall
 LIBRARIES = -lpdcurses
-SOURCES = main.c ui.c
+SOURCES = main.c ui.c engine.c keyboard.c
 OBJECTS = $(SOURCES:.c=.o)
 EXECUTABLE = snake.exe
 
@@ -12,4 +12,4 @@ all: $(OBJECTS)
 	$(CC) $< $(CFLAGS) -o $@
 
 clean:
-	rm -rf *.o
+	del *.o $(EXECUTABLE)
